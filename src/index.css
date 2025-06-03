@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+.custom-dark {
+  background-color: #18181b !important;
+  color: #f4f4f5 !important;
+}
+
+.custom-light {
+  background-color: #f9fafb !important;
+  color: #18181b !important;
+}
+
+.custom-dark .bg-gray-50 {
+  background-color: #18181b !important;
+}
+
+.custom-dark .text-gray-900 {
+  color: #f4f4f5 !important;
+}
+
+.custom-light .bg-gray-900 {
+  background-color: #f9fafb !important;
+}
+
+.custom-light .text-white {
+  color: #18181b !important;
+}
+
+.custom-dark .bg-gray-100 {
+  background-color: #232329 !important;
+}
+.custom-dark .text-gray-800,
+.custom-dark .text-gray-700 {
+  color: #e4e4e7 !important;
+}
+.custom-dark .border-gray-200 {
+  border-color: #33334d !important;
+}
+.custom-dark .border-gray-700 {
+  border-color: #44445a !important;
+}
+
+.custom-light .bg-gray-700 {
+  background-color: #f3f4f6 !important;
+}
+.custom-light .text-gray-200 {
+  color: #18181b !important;
+}
+
+/* Sidebar specific tweaks */
+.w-72 {
+  width: 18rem !important;
+}
+.w-12 {
+  width: 3rem !important;
+}
+.max-w-5xl {
+  max-width: 80rem !important;
+}
+
+/* Hide scrollbars for sidebar for a cleaner look */
+aside::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+aside::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+.custom-dark aside::-webkit-scrollbar-thumb {
+  background: #33334d;
+}
