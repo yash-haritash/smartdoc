@@ -9,7 +9,7 @@ export default function TextInput({ inputText, setInputText }) {
       value={inputText}
       onChange={(e) => setInputText(e.target.value)}
       rows={10}
-      placeholder="Paste your text here..."
+      placeholder="Paste your text here to summarize..."
       className={`w-full p-4 border rounded-md transition-colors ${
         darkMode
           ? 'bg-gray-800 text-gray-100 border-gray-700'

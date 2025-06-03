@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AboutPage from './components/AboutPage';
 import Home from './components/Home';
+import NamePrompt from './components/NamePrompt';
 
 function App() {
   const [inputText, setInputText] = useState('');
@@ -22,6 +23,7 @@ function App() {
     const saved = localStorage.getItem('smartdoc-historyOpen');
     return saved === null ? true : JSON.parse(saved);
   });
+  const [userName, setUserName] = useState(() => localStorage.getItem('smartdoc-username') || '');
 
   useEffect(() => {
     localStorage.setItem('smartdoc-history', JSON.stringify(history));
@@ -90,11 +92,16 @@ function App() {
     setHistory(prev => prev.filter(item => item.id !== id));
   };
 
+  // Show NamePrompt if no username
+  if (!userName) {
+    return <NamePrompt onSubmit={name => setUserName(name)} />;
+  }
+
   return (
     <BrowserRouter>
       <div className={`h-screen flex flex-col transition-colors font-sans ${darkMode ? 'custom-dark' : 'custom-light'}`}>  
         <Navbar />
-        <div className={`flex w-full min-h-0 ${darkMode ? 'bg-gray-950' : 'bg-blue-50'} transition-colors`} style={{flex: 1, height: 'calc(100vh - 56px - 48px)'}}>
+        <div className={`relative flex w-full h-full ${darkMode ? 'bg-gray-950' : 'bg-blue-50'} transition-colors`}> 
           <Routes>
             <Route path="/about" element={
               <main className="flex-1 flex flex-col items-center justify-center bg-transparent h-full overflow-auto">

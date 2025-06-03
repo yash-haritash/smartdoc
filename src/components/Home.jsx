@@ -45,8 +45,8 @@ export default function Home({
       >
         <span className="text-xl">▶</span>
       </button>
-      <main className={`pt-8 flex-1 flex flex-col items-center justify-center transition-colors h-full rounded-none shadow-none mt-8 mb-0 border-0 overflow-auto `}>
-        <div className="w-full max-w-2xl flex flex-col gap-6 px-6 py-8 md:px-12 md:py-12">
+      <main className="relative flex-1 flex flex-col items-center justify-center transition-colors h-full rounded-none shadow-none border-0 overflow-auto pt-20">
+        <div className="w-full max-w-2xl flex flex-col gap-6 px-4 py-6 sm:px-8 sm:py-10 md:px-12 md:py-14">
           <header className="w-full flex justify-between items-center">
             <h1 className="text-4xl md:text-5xl font-extrabold text-blue-700 dark:text-blue-400 drop-shadow-sm tracking-tight">SmartDoc AI</h1>
           </header>

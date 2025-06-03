@@ -32,9 +32,9 @@ export default function HistoryPanel({
         </button>
       </div>
       {historyOpen && (
-        <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-3">
+        <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-3 items-center">
           <button
-            className="mb-3 px-3 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600 transition-colors font-semibold"
+            className="mb-3 px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             onClick={() => {
               setInputText('');
               setSummary('');
@@ -43,26 +43,12 @@ export default function HistoryPanel({
           >
             + New Chat
           </button>
-          {history.length === 0 && <div className="text-gray-400">No history yet.</div>}
-          <ul className="space-y-3">
+          {history.length === 0 && <div className="text-gray-300 text-center">No history yet.</div>}
+          <ul className="space-y-3 w-full flex flex-col items-center">
             {history.map(item => (
-              <li
-                key={item.id}
-                className={`p-2 rounded flex flex-col gap-1 shadow-sm border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-100 border-gray-200'}`}
-              >
-                <div
-                  className="truncate text-xs cursor-pointer hover:underline text-white"
-                  onClick={() => handleHistoryClick(item)}
-                  title={item.input}
-                >
-                  {item.summary}
-                </div>
-                <button
-                  className="self-end text-xs text-red-500 hover:underline"
-                  onClick={() => handleDeleteHistory(item.id)}
-                >
-                  Delete
-                </button>
+              <li key={item.id} className={`p-2 flex flex-col gap-1 border w-full ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-100 border-gray-200'}`}> 
+                <div className="truncate text-xs cursor-pointer hover:underline text-white" onClick={() => handleHistoryClick(item)} title={item.input}>{item.summary}</div>
+                <button className="self-end text-xs text-red-500 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400" onClick={() => handleDeleteHistory(item.id)}>Delete</button>
               </li>
             ))}
           </ul>
