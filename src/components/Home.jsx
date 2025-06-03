@@ -3,6 +3,7 @@ import TextInput from './TextInput';
 import SummaryOutput from './SummaryOutput';
 import KeywordList from './KeywordList';
 import HistoryPanel from './HistoryPanel';
+import ThinkingIcon from './ThinkingIcon';
 
 export default function Home({
   inputText,
@@ -51,22 +52,30 @@ export default function Home({
             <h1 className="text-4xl md:text-5xl font-extrabold text-blue-700 dark:text-blue-400 drop-shadow-sm tracking-tight">SmartDoc AI</h1>
           </header>
           <TextInput inputText={inputText} setInputText={setInputText} />
-          <button
-            onClick={handleSummarize}
-            disabled={!inputText || loading}
-            className="mt-2 px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl hover:from-blue-700 hover:to-blue-600 disabled:opacity-50 shadow-none text-lg font-bold tracking-wide transition-all duration-200"
-          >
-            {loading ? 'Summarizing...' : 'Summarize'}
-          </button>
-          {error && (
-            <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/40 text-red-700 dark:text-red-200 rounded-lg border border-red-300 dark:border-red-700 font-medium shadow-none">
-              {error}
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-8">
+              <ThinkingIcon />
             </div>
-          )}
-          {summary && !error && (
+          ) : (
             <>
-              <SummaryOutput summary={summary} />
-              <KeywordList text={inputText} />
+              <button
+                onClick={handleSummarize}
+                disabled={!inputText || loading}
+                className="mt-2 px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl hover:from-blue-700 hover:to-blue-600 disabled:opacity-50 shadow-none text-lg font-bold tracking-wide transition-all duration-200"
+              >
+                Summarize
+              </button>
+              {error && (
+                <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/40 text-red-700 dark:text-red-200 rounded-lg border border-red-300 dark:border-red-700 font-medium shadow-none">
+                  {error}
+                </div>
+              )}
+              {summary && !error && (
+                <>
+                  <SummaryOutput summary={summary} />
+                  <KeywordList text={inputText} />
+                </>
+              )}
             </>
           )}
         </div>
