@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextInput from './TextInput';
 import SummaryOutput from './SummaryOutput';
 import KeywordList from './KeywordList';
 import HistoryPanel from './HistoryPanel';
 import ThinkingIcon from './ThinkingIcon';
+import { answerQuestion } from '../utils/qaAPI';
 
 export default function Home({
   inputText,
@@ -20,11 +21,34 @@ export default function Home({
   handleDeleteHistory,
   setError
 }) {
+  // Add state for QA
+  const [question, setQuestion] = useState('');
+  const [qaLoading, setQaLoading] = useState(false);
+  const [qaAnswer, setQaAnswer] = useState('');
+  const [qaError, setQaError] = useState('');
+
+  const handleAsk = async () => {
+    setQaLoading(true);
+    setQaError('');
+    setQaAnswer('');
+    try {
+      const answer = await answerQuestion(inputText, question);
+      if (answer.startsWith('Error:')) {
+        setQaError(answer);
+      } else {
+        setQaAnswer(answer);
+      }
+    } catch (e) {
+      setQaError('Unexpected error: ' + e.message);
+    }
+    setQaLoading(false);
+  };
+
   return (
     <>
       {/* Collapsible History Sidebar */}
-      <aside className={`h-full sticky top-[56px] flex-shrink-0 w-72 ${historyOpen ? 'md:flex' : 'hidden'} flex-col border-r border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 transition-colors z-10 rounded-none shadow-none`}>
-        <div className="flex-1 overflow-auto">
+      <aside className={`h-full sticky top-[56px] flex-shrink-0 w-72 ${historyOpen ? 'md:flex' : 'hidden'} flex-col border-r border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 transition-colors z-10 rounded-none shadow-none min-h-0`}> 
+        <div className="flex-1 overflow-auto min-h-0">
           <HistoryPanel
             history={history}
             historyOpen={historyOpen}
@@ -46,9 +70,9 @@ export default function Home({
       >
         <span className="text-xl">▶</span>
       </button>
-      <main className="relative flex-1 flex flex-col items-center justify-center transition-colors h-full rounded-none shadow-none border-0 overflow-auto pt-20">
-        <div className="w-full max-w-2xl flex flex-col gap-6 px-4 py-6 sm:px-8 sm:py-10 md:px-12 md:py-14">
-          <header className="w-full flex justify-between items-center">
+      <main className="flex-1 flex flex-col items-center transition-colors h-full rounded-none shadow-none border-0 overflow-auto" style={{marginTop: '56px', paddingBottom: '64px'}}>
+        <div className="w-full max-w-2xl flex flex-col gap-6 px-4 py-8 sm:px-8 sm:py-12 md:px-12 md:py-16">
+          <header className="w-full flex justify-between items-center pt-4 pb-2">
             <h1 className="text-4xl md:text-5xl font-extrabold text-blue-700 dark:text-blue-400 drop-shadow-sm tracking-tight">SmartDoc AI</h1>
           </header>
           <TextInput inputText={inputText} setInputText={setInputText} />
@@ -74,6 +98,31 @@ export default function Home({
                 <>
                   <SummaryOutput summary={summary} />
                   <KeywordList text={inputText} />
+                  {/* QA Section */}
+                  <div className="mt-8 flex flex-col gap-3">
+                    <label className="font-semibold text-base text-gray-700 dark:text-gray-200">Ask a question about the text:</label>
+                    <div className="flex gap-2">
+                      <input
+                        className="flex-1 px-4 py-2 rounded border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                        value={question}
+                        onChange={e => setQuestion(e.target.value)}
+                        placeholder="Type your question..."
+                        disabled={qaLoading}
+                      />
+                      <button
+                        onClick={handleAsk}
+                        disabled={!question.trim() || qaLoading || !inputText.trim()}
+                        className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold transition-colors disabled:opacity-50"
+                      >Ask</button>
+                    </div>
+                    {qaLoading && <div className="py-4"><ThinkingIcon /></div>}
+                    {qaError && <div className="text-red-500 font-medium">{qaError}</div>}
+                    {qaAnswer && !qaError && (
+                      <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 rounded-lg p-4 text-blue-900 dark:text-blue-100 font-semibold shadow-sm">
+                        <span className="text-blue-700 dark:text-blue-300">Answer:</span> {qaAnswer}
+                      </div>
+                    )}
+                  </div>
                 </>
               )}
             </>

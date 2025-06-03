@@ -101,10 +101,11 @@ function App() {
     <BrowserRouter>
       <div className={`h-screen flex flex-col transition-colors font-sans ${darkMode ? 'custom-dark' : 'custom-light'}`}>  
         <Navbar />
-        <div className={`relative flex w-full h-full ${darkMode ? 'bg-gray-950' : 'bg-blue-50'} transition-colors`}> 
+        {/* Main content area: flex row, main scrolls, footer always visible */}
+        <div className={`relative flex w-full h-full items-stretch ${darkMode ? 'bg-gray-950' : 'bg-blue-50'} transition-colors`}> 
           <Routes>
             <Route path="/about" element={
-              <main className="flex-1 flex flex-col items-center justify-center bg-transparent h-full overflow-auto">
+              <main className="flex-1 flex flex-col items-center justify-center bg-transparent h-full overflow-auto pb-8">
                 <AboutPage />
               </main>
             } />
