@@ -5,6 +5,7 @@ import KeywordList from './KeywordList';
 import HistoryPanel from './HistoryPanel';
 import ThinkingIcon from './ThinkingIcon';
 import { answerQuestion } from '../utils/qaAPI';
+import { useTheme } from './ThemeContext';
 
 export default function Home({
   inputText,
@@ -26,6 +27,7 @@ export default function Home({
   const [qaLoading, setQaLoading] = useState(false);
   const [qaAnswer, setQaAnswer] = useState('');
   const [qaError, setQaError] = useState('');
+  const { darkMode } = useTheme();
 
   const handleAsk = async () => {
     setQaLoading(true);
@@ -118,8 +120,8 @@ export default function Home({
                     {qaLoading && <div className="py-4"><ThinkingIcon /></div>}
                     {qaError && <div className="text-red-500 font-medium">{qaError}</div>}
                     {qaAnswer && !qaError && (
-                      <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 rounded-lg p-4 text-blue-900 dark:text-blue-100 font-semibold shadow-sm">
-                        <span className="text-blue-700 dark:text-blue-300">Answer:</span> {qaAnswer}
+                      <div className={`rounded-lg p-4 font-semibold shadow-sm transition-colors border ${darkMode ? 'bg-blue-900/30 border-blue-700 text-blue-100' : 'bg-blue-50 border-blue-200 text-blue-900'}`}>
+                        <span className={darkMode ? 'text-blue-300' : 'text-blue-700'}>Answer:</span> {qaAnswer}
                       </div>
                     )}
                   </div>
